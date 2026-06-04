@@ -12,4 +12,4 @@ cs166_db_status
 
 #cp -a *.dat $PGDATA/
 
-cs166_psql $USER'_Project_DB' < cs166_phase2_scehma.sql
+cs166_psql $USER'_Project_DB' < cs166_phase2_schema.sql
