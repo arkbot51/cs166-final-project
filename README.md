@@ -1,6 +1,6 @@
 ﻿# Online Auction and Bidding System
 ## Overview
-- This repository contains the final project for CS166 at the University of California, Riverside. This project tracks the users, bids, payments, auctions, shipments, and items.
+This repository contains the final project for CS166 at the University of California, Riverside. This project tracks the users, bids, payments, auctions, shipments, and items.
 
 ## ER Diagram
 <img width="1290" height="993" alt="675972164_2359427107858395_8328466265269416460_n" src="https://github.com/user-attachments/assets/4169ed95-3cd9-4f3c-8f67-e62a6aad1e86" />
