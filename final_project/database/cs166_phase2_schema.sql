@@ -112,3 +112,22 @@ INSERT INTO users (login, password, phone_num, address, role) VALUES
 ('buyer_jack', 'pass123', '555-0192', '123 University Ave', 'Buyer'),
 ('seller_jill', 'pass456', '555-0143', '456 Canyon Crest Dr', 'Seller'),
 ('admin_main', 'adminpass', '555-0000', 'UCR CS Dept', 'Admin');
+
+INSERT INTO item (item_id, item_name, category, starting_price, item_condition, description, seller_login, seller_role) VALUES 
+(1, 'Vintage Camera', 'Electronics', 50.00, 'Used', 'A classic 35mm film camera in great condition.', 'seller_jill', 'Seller'),
+(2, 'Gaming Laptop', 'Electronics', 1200.00, 'New', 'High-performance laptop, unopened box.', 'seller_jill', 'Seller');
+
+INSERT INTO auction (auction_id, item_id, seller_login, seller_role, current_highest_bid, auction_status) VALUES 
+(1, 1, 'seller_jill', 'Seller', 55.00, 'Active');
+
+INSERT INTO auction (auction_id, item_id, seller_login, seller_role, current_highest_bid, auction_status, winner_login, winner_role) VALUES 
+(2, 2, 'seller_jill', 'Seller', 1300.00, 'Closed', 'buyer_jack', 'Buyer');
+
+INSERT INTO bid (bid_id, auction_id, buyer_login, buyer_role, bid_amount) VALUES 
+(1, 1, 'buyer_jack', 'Buyer', 55.00);
+
+INSERT INTO payment (payment_id, auction_id, buyer_login, buyer_role, amount, payment_status) VALUES 
+(1, 2, 'buyer_jack', 'Buyer', 1300.00, 'Completed');
+
+INSERT INTO shipment (shipment_id, auction_id, address, shipment_status, tracking_number) VALUES 
+(1, 2, '123 University Ave', 'Delivered', 'TRK-987654321');
