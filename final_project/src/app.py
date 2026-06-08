@@ -52,42 +52,35 @@ class AuctionCLI:
                 return
             print("Invalid login.")
     
-    #helper
+    #helper function, got help from the internet. Linked here:
+    #https://laracasts.com/discuss/channels/laravel/how-to-perform-auto-increment-with-dependency-on-column-in-sql-serverlaravel
+    #https://learn.microsoft.com/en-us/sql/t-sql/language-elements/coalesce-transact-sql?view=sql-server-ver17
     def next_id(self, table, column):
         result = run_query(
-            f"SELECT COALESCE(MAX({column}),0)+1 AS id FROM {table}"
+            f"SELECT coalesce(max({column}),0)+1 AS id FROM {table}"
         )
 
         return result[0]["id"]
 
     def main_menu(self):
-
         while True:
             print("Auction Marketplace")
-
             print(f"User: {self.current_user}")
             print(f"Role: {self.current_role}")
-
             print("\n1. Buyer Menu")
             print("2. Seller Menu")
             print("3. Admin Menu")
             print("4. Logout")
             print("5. Exit")
-
             choice = input("Choice: ")
-
             if choice == "1":
                 self.buyer_menu()
-
             elif choice == "2":
                 self.seller_menu()
-
             elif choice == "3":
                 self.admin_menu()
-
             elif choice == "4":
                 self.login()
-
             elif choice == "5":
                 sys.exit()
 
