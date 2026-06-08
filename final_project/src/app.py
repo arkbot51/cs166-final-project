@@ -36,7 +36,7 @@ class AuctionCLI:
 
     def login(self):
         while True:
-            print("\n=== Login ===")
+            print("\nLogin")
             username = input("Username: ").strip()
             password = input("Password: ").strip()
             user = run_query("""
@@ -62,26 +62,56 @@ class AuctionCLI:
 
         return result[0]["id"]
 
+    #prints data out neater
+    def print_table(self, rows):
+        if not rows:
+            print("No records found.")
+            return
+
+        headers = rows[0].keys()
+
+        widths = {}
+        for h in headers:
+            widths[h] = max(
+                len(str(h)),
+                max(len(str(row[h])) for row in rows)
+            )
+
+        header_line = " | ".join(
+            f"{h:<{widths[h]}}" for h in headers
+        )
+
+        print("\n" + header_line)
+        print("-" * len(header_line))
+
+        for row in rows:
+            print(
+                " | ".join(
+                    f"{str(row[h]):<{widths[h]}}"
+                    for h in headers
+                )
+            )
+
     def main_menu(self):
         while True:
+            print("")
             print("Auction Marketplace")
             print(f"User: {self.current_user}")
             print(f"Role: {self.current_role}")
-            print("\n1. Buyer Menu")
-            print("2. Seller Menu")
-            print("3. Admin Menu")
-            print("4. Logout")
-            print("5. Exit")
+            print("\n1. Menu")
+            print("2. Logout")
+            print("3. Exit")
             choice = input("Choice: ")
             if choice == "1":
-                self.buyer_menu()
+                if (self.current_role == "Buyer"):
+                    self.buyer_menu()
+                elif (self.current_role == "Seller"):
+                    self.seller_menu()
+                elif (self.current_role == "Admin"):
+                    self.admin_menu()
             elif choice == "2":
-                self.seller_menu()
-            elif choice == "3":
-                self.admin_menu()
-            elif choice == "4":
                 self.login()
-            elif choice == "5":
+            elif choice == "3":
                 sys.exit()
 
     #buyer dashboard
@@ -480,15 +510,57 @@ class AuctionCLI:
             print("7. Back")
             choice = input("Choice: ")
             if choice == "1":
-                print(run_query("SELECT * FROM users"))
+                rows = run_query("""
+                    SELECT login,
+                        role,
+                        phone_num,
+                        address,
+                        favorite_category
+                    FROM users
+                """)
+                self.print_table(rows)
             elif choice == "2":
-                print(run_query("SELECT * FROM auction"))
+                rows = run_query("""
+                    SELECT auction_id,
+                        item_id,
+                        seller_login,
+                        current_highest_bid,
+                        auction_status,
+                        winner_login
+                    FROM auction
+                """)
+                self.print_table(rows)
             elif choice == "3":
-                print(run_query("SELECT * FROM bid"))
+                rows = run_query("""
+                    SELECT bid_id,
+                        auction_id,
+                        buyer_login,
+                        bid_amount,
+                        bid_timestamp
+                    FROM bid
+                    ORDER BY bid_id
+                """)
+                self.print_table(rows)
             elif choice == "4":
-                print(run_query("SELECT * FROM payment"))
+                rows = run_query("""
+                    SELECT payment_id,
+                        auction_id,
+                        buyer_login,
+                        amount,
+                        payment_status
+                    FROM payment
+                """)
+                self.print_table(rows)
             elif choice == "5":
-                print(run_query("SELECT * FROM shipment"))
+                rows = run_query("""
+                    SELECT shipment_id,
+                        auction_id,
+                        shipment_status,
+                        tracking_number,
+                        address
+                    FROM shipment
+                """)
+                self.print_table(rows)
             elif choice == "6":
                 self.system_stats()
             elif choice == "7":
